@@ -89,32 +89,34 @@
     <main>
         <section class="offers" id="veiculos">
             <div class="container">
-                <h1>ÚLTIMAS OFERTAS</h1>
+                @if ($promocoes->isNotEmpty())
+                    <section class="offers__section" id="promocoes" aria-labelledby="promocoes-titulo">
+                        <h1 id="promocoes-titulo">VEÍCULOS EM PROMOÇÃO</h1>
+                        <div class="vehicle-grid">
+                            @foreach ($promocoes as $veiculo)
+                                @include('home.partials.vehicle-card', ['veiculo' => $veiculo])
+                            @endforeach
+                        </div>
+                    </section>
+                @endif
 
-                @php
-                    $veiculos = array_fill(0, 8, [
-                        'nome' => 'Honda Civic EXL',
-                        'ano' => '2022/2022',
-                        'km' => '43.500 km',
-                        'cambio' => 'Automático',
-                        'preco' => 'R$ 119.900',
-                    ]);
-                @endphp
-
-                <div class="vehicle-grid">
-                    @foreach ($veiculos as $veiculo)
-                        <article class="vehicle-card">
-                            <div class="vehicle-card__image vehicle-card__image--placeholder">
-                                <span>FOTO DO VEÍCULO</span>
-                            </div>
-                            <div class="vehicle-card__content">
-                                <h2>{{ $veiculo['nome'] }}</h2>
-                                <p>{{ $veiculo['ano'] }} <span>•</span> {{ $veiculo['km'] }} <span>•</span> {{ $veiculo['cambio'] }}</p>
-                            </div>
-                            <a href="#" class="vehicle-card__price">{{ $veiculo['preco'] }}</a>
-                        </article>
-                    @endforeach
-                </div>
+                @if ($recentes->isNotEmpty())
+                    <section class="offers__section" id="recentes" aria-labelledby="recentes-titulo">
+                        @if ($promocoes->isEmpty())
+                            <h1 id="recentes-titulo">VEÍCULOS RECENTES</h1>
+                        @else
+                            <h2 class="offers__title" id="recentes-titulo">VEÍCULOS RECENTES</h2>
+                        @endif
+                        <div class="vehicle-grid">
+                            @foreach ($recentes as $veiculo)
+                                @include('home.partials.vehicle-card', ['veiculo' => $veiculo])
+                            @endforeach
+                        </div>
+                    </section>
+                @elseif ($promocoes->isEmpty())
+                    <h1>VEÍCULOS RECENTES</h1>
+                    <p class="offers__empty">Nenhum veículo disponível no momento. Entre em contato para saber das novidades.</p>
+                @endif
 
                 <div class="offers__cta">
                     <a href="#" class="stock-button">Veja todo nosso estoque <span>⌕</span></a>
