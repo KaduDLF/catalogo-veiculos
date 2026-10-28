@@ -108,8 +108,15 @@ a {
     color: var(--text);
     font-size: 18px;
     font-weight: 500;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
 }
+
+
+.info-block--phone {
+    align-items: flex-start;
+}
+
+
 
 .info-block--address {
     text-align: right;
@@ -119,6 +126,24 @@ a {
     width: 1px;
     height: 110px;
     background: rgba(18, 23, 33, .5);
+}
+
+.phone-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.phone-row img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.phone-row span {
+    line-height: 1;
 }
 
 .main-nav {
@@ -141,12 +166,20 @@ a {
 }
 
 .nav-link {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 8px;
     color: #fff;
     font-size: 17px;
     white-space: nowrap;
+    text-decoration: none;
+}
+
+.nav-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .nav-link:hover,
@@ -305,7 +338,7 @@ a {
 .footer-highlight__item {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
 }
 
 .footer-highlight__item div {
@@ -319,7 +352,10 @@ a {
 }
 
 .footer-highlight__icon {
-    font-size: 34px;
+     width: 36px;
+    height: 36px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .footer-main {

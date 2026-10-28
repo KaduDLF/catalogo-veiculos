@@ -13,11 +13,9 @@
     <header class="top-header">
         <div class="container top-header__inner">
             <div class="brand">
-                <div class="brand__logo" aria-label="L2 Veículos">
-                    <span class="brand__l2">L2</span>
-                    <span class="brand__vehicles">VEÍCULOS</span>
-                    <small>VEÍCULOS NOVOS E SEMINOVOS</small>
-                </div>
+                
+                    <img src="{{ asset('images/logo/LogoL2.png') }}" alt="Logo L" width="341" height="165">
+                
             </div>
 
             <div class="top-header__info">
@@ -31,8 +29,21 @@
 
                 <div class="info-block">
                     <strong>Telefone</strong>
-                    <span>◉ (62) 98535-0837</span>
-                    <span>◉ (62) 99641-3235</span>
+                    <a class="phone-row"
+                    href="https://wa.me/5562985350837"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                        <img src="{{ asset('images/icons/icon-wpp.png') }}" alt="WhatsApp">
+                        <span>(62) 98535-0837</span>
+                    </a>
+
+                    <a class="phone-row"
+                    href="https://wa.me/5562996413235"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                        <img src="{{ asset('images/icons/icon-wpp.png') }}" alt="WhatsApp">
+                        <span>(62) 99641-3235</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -41,13 +52,31 @@
     <nav class="main-nav">
         <div class="container main-nav__inner">
             <div class="main-nav__links">
-                <a href="#" class="nav-link nav-link--active">⌂ <span>Home</span></a>
+                <a href="#" class="nav-link nav-link--active">
+                    <img src="{{ asset('images/icons/icon-home.png') }}" alt="Home" class="nav-icon">
+                    <span>Home</span>
+                </a>
+
                 <span class="nav-separator"></span>
-                <a href="#veiculos" class="nav-link">▣ <span>Veículos</span></a>
+
+                <a href="#veiculos" class="nav-link">
+                    <img src="{{ asset('images/icons/icon-car.png') }}" alt="Veículos" class="nav-icon">
+                    <span>Veículos</span>
+                </a>
+
                 <span class="nav-separator"></span>
-                <a href="#empresa" class="nav-link">⌖ <span>Empresa</span></a>
+
+                <a href="#empresa" class="nav-link">
+                    <img src="{{ asset('images/icons/icon-location.png') }}" alt="Empresa" class="nav-icon">
+                    <span>Empresa</span>
+                </a>
+
                 <span class="nav-separator"></span>
-                <a href="#contato" class="nav-link">✉ <span>Contato</span></a>
+
+                <a href="#contato" class="nav-link">
+                    <img src="{{ asset('images/icons/icon-mail.png') }}" alt="Contato" class="nav-icon">
+                    <span>Contato</span>
+                </a>
             </div>
 
             <form class="quick-search" action="#" method="get">
@@ -97,20 +126,33 @@
     <footer id="contato">
         <div class="footer-highlight">
             <div class="container footer-highlight__inner">
+
                 <div class="footer-highlight__item">
-                    <span class="footer-highlight__icon">⌖</span>
+                    <img
+                        src="{{ asset('images/icons/icon-location.png') }}"
+                        alt="Localização"
+                        class="footer-highlight__icon"
+                    >
+
                     <div>
-                        <strong>Rua E, Nº 22</strong>
+                        <strong>Rua Frutuoso Alves Guimarães</strong>
                         <strong>Centro - Rialma - GO</strong>
                     </div>
                 </div>
+
                 <div class="footer-highlight__item">
-                    <span class="footer-highlight__icon">◷</span>
+                    <img
+                        src="{{ asset('images/icons/icon-clock.png') }}"
+                        alt="Horário"
+                        class="footer-highlight__icon"
+                    >
+
                     <div>
                         <strong>Segunda à Sexta: 8hs às 18hs</strong>
                         <strong>Sábado: 8hs às 12:00</strong>
                     </div>
                 </div>
+
             </div>
         </div>
 
