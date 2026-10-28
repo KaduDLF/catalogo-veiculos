@@ -23,7 +23,7 @@
             <div class="top-header__info">
                 <div class="info-block info-block--address">
                     <strong>Endereço</strong>
-                    <span>Rua E, Nº 22</span>
+                    <span>Rua Frutuoso Alves Guimarães</span>
                     <span>Centro - Rialma - GO</span>
                 </div>
 
@@ -128,7 +128,7 @@
                 <div class="footer-column">
                     <h3>Endereço</h3>
                     <span class="footer-line"></span>
-                    <p>Rua E, Nº 22<br>Centro - Rialma - GO</p>
+                    <p>Rua Frutuoso Alves Guimarães<br>Centro - Rialma - GO</p>
                     <h3 class="footer-column__subheading">Horário</h3>
                     <span class="footer-line"></span>
                     <p>Segunda à Sexta: 8hs às 18hs<br>Sábado: 8hs às 12:00</p>
