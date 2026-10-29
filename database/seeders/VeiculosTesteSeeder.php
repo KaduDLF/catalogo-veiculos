@@ -31,7 +31,7 @@ class VeiculosTesteSeeder extends Seeder
 
         DB::transaction(function () use ($veiculos) {
             foreach ($veiculos as $index => [$nome, $ano, $km, $cambio, $preco, $promocional]) {
-                Veiculo::firstOrCreate(['nome' => $nome.' (Teste)'], [
+                $veiculo = Veiculo::firstOrCreate(['nome' => $nome.' (Teste)'], [
                     'ano' => $ano,
                     'km' => $km,
                     'cambio' => $cambio,
@@ -40,6 +40,14 @@ class VeiculosTesteSeeder extends Seeder
                     'em_promocao' => $promocional !== null,
                     'preco_promocional' => $promocional,
                     'created_at' => now()->subDays($index),
+                ]);
+                $veiculo->update([
+                    'marca' => $veiculo->marca ?? explode(' ', $nome)[0],
+                    'modelo' => $veiculo->modelo ?? explode(' ', $nome)[1],
+                    'cor' => $veiculo->cor ?? ['Prata', 'Branco', 'Preto'][$index % 3],
+                    'combustivel' => $veiculo->combustivel ?? ($index === 11 ? 'Diesel' : 'Flex'),
+                    'descricao' => $veiculo->descricao ?? 'Veículo fictício para demonstração do catálogo e da página de detalhes.',
+                    'opcionais' => $veiculo->opcionais ?? ['Ar-condicionado', 'Multimídia', 'Freios ABS', 'Direção elétrica'],
                 ]);
             }
         });

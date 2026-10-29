@@ -10,7 +10,7 @@
         @endif
     </div>
     <div class="vehicle-card__content">
-        <h3>{{ $veiculo->nome }}</h3>
+        <h3><a href="{{ route('veiculos.show', $veiculo) }}">{{ $veiculo->nome }}</a></h3>
         <p>{{ $veiculo->ano }} <span>•</span> {{ number_format($veiculo->km, 0, ',', '.') }} km <span>•</span> {{ $veiculo->cambio }}</p>
     </div>
     <div class="vehicle-card__price">

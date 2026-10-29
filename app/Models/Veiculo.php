@@ -10,11 +10,14 @@ class Veiculo extends Model
     protected $fillable = [
         'nome', 'ano', 'km', 'cambio', 'preco', 'foto',
         'disponivel', 'em_promocao', 'preco_promocional',
+        'marca', 'modelo', 'versao', 'cor', 'combustivel', 'descricao', 'opcionais', 'fotos',
     ];
 
     protected function casts(): array
     {
         return [
+            'opcionais' => 'array',
+            'fotos' => 'array',
             'km' => 'integer',
             'preco' => 'decimal:2',
             'preco_promocional' => 'decimal:2',
@@ -26,6 +29,11 @@ class Veiculo extends Model
     public function scopeDisponiveis(Builder $query): Builder
     {
         return $query->where('disponivel', true);
+    }
+
+    public function getWhatsappUrlAttribute(): string
+    {
+        return 'https://wa.me/5562985350837?text='.rawurlencode('Olá! Tenho interesse no veículo '.$this->nome.'. '.route('veiculos.show', $this));
     }
 
     public function scopeEmPromocao(Builder $query): Builder

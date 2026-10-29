@@ -51,8 +51,7 @@ $veiculo->update(['em_promocao' => false, 'preco_promocional' => null]);
 ```
 
 Não foi adicionado um campo `destaque`: a seleção solicitada usa promoção e
-data de cadastro. O projeto ainda não possui painel de cadastro, busca ou página
-de estoque; os links desses recursos existentes não foram ampliados nesta mudança.
+data de cadastro. O projeto ainda não possui painel administrativo de cadastro.
 
 ## Testes
 
@@ -71,3 +70,17 @@ php -d extension=pdo_sqlite vendor/phpunit/phpunit/phpunit
 
 Cobertura: ausência de promoções, reposição por recentes, ordem, limites,
 ausência de duplicatas, preços inválidos, indisponibilidade e estoque vazio.
+
+## Catálogo e detalhes
+
+- `/veiculos`: filtros por marca, modelo e promoção; busca pelo nome; ordenação
+  por data ou preço efetivo; paginação de nove veículos e alternância grade/lista.
+- `/veiculos/{id}`: informações, descrição, opcionais, galeria e contato pelo
+  WhatsApp. Veículos indisponíveis retornam 404.
+- Header e footer compartilhados em `resources/views/layouts/app.blade.php`.
+- Execute `php artisan migrate` para adicionar marca, modelo, versão, cor,
+  combustível, descrição, opcionais e fotos. `fotos` e `opcionais` são arrays;
+  os caminhos de fotos são relativos a `public/`. A galeria inclui a foto principal.
+- Para completar os exemplos locais: `php artisan db:seed --class=VeiculosTesteSeeder`.
+  Fotos ausentes mantêm o espaço reservado; miniaturas e navegação aparecem
+  conforme as fotos cadastradas. Empresa e Contato ainda aguardam seus layouts.
