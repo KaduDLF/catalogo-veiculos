@@ -84,3 +84,12 @@ ausência de duplicatas, preços inválidos, indisponibilidade e estoque vazio.
 - Para completar os exemplos locais: `php artisan db:seed --class=VeiculosTesteSeeder`.
   Fotos ausentes mantêm o espaço reservado; miniaturas e navegação aparecem
   conforme as fotos cadastradas. Empresa e Contato ainda aguardam seus layouts.
+
+## Empresa e Contato
+
+- `/empresa`: apresentação da loja. A galeria aguarda as fotos originais: adicione
+  arquivos em `public/images/empresa` e entradas `src`/`alt` em `config/empresa.php`.
+- `/contato`: formulário validado, proteção CSRF e limite de cinco envios por minuto.
+  As mensagens são gravadas em `contato_mensagens`; não há envio de e-mail nem
+  tela administrativa de leitura nesta etapa. O botão WhatsApp permite contato direto.
+- Execute `php artisan migrate` ao atualizar a instalação para criar a tabela de mensagens.

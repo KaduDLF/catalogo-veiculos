@@ -33,3 +33,32 @@
     .main-nav__links .nav-link { padding: 12px; border-radius: 8px; }
     .main-nav__links .nav-link:hover { background: rgba(255,255,255,.12); }
 }
+
+.institutional { padding-top: 90px; padding-bottom: 100px; }
+.institutional-title { font-size: 30px; font-weight: 500; margin: 0 0 30px; padding-bottom: 16px; border-bottom: 1px solid #7b8189; }
+.company-copy { font-size: 18px; line-height: 1.65; }
+.company-copy p { margin: 0 0 18px; }
+.company-intro { font-weight: 600; }
+.company-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 32px; margin-top: 64px; align-items: start; }
+.company-gallery img { width: 100%; height: auto; display: block; }
+.contact-page { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; }
+.contact-card { background: #202020; color: #fff; border-radius: 12px; padding: 40px 32px; }
+.contact-card section + section { margin-top: 38px; }
+.contact-card h2 { display: flex; align-items: center; gap: 14px; margin: 0 0 16px; padding-bottom: 18px; border-bottom: 1px solid #707070; font-size: 20px; }
+.contact-card h2 img { width: 28px; height: 28px; object-fit: contain; }
+.contact-card p { margin: 0; line-height: 1.8; font-size: 17px; }
+.contact-lead { color: var(--muted); margin: -12px 0 24px; line-height: 1.6; }
+.contact-form { display: flex; flex-direction: column; gap: 22px; }
+.contact-form label { display: flex; flex-direction: column; gap: 9px; font-size: 16px; min-width: 0; }
+.contact-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.contact-form input, .contact-form select, .contact-form textarea { width: 100%; min-height: 48px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--text); font: inherit; }
+.contact-form textarea { resize: vertical; }
+.contact-submit { background: var(--blue); font-size: 17px; min-height: 52px; }
+.contact-direct { margin-top: 26px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); }
+.whatsapp-outline { display: inline-flex; justify-content: center; align-items: center; gap: 12px; padding: 12px 24px; border: 1px solid #079847; border-radius: 8px; color: #07853f; font-weight: 600; }
+.whatsapp-outline img { width: 25px; height: 25px; }
+.form-success, .form-errors { padding: 18px; border-radius: 8px; line-height: 1.5; }
+.form-success { background: #e4f5e9; color: #17562e; }
+.form-errors { background: #fff0ef; color: #87251d; }
+@media(max-width:1100px) { .contact-page { grid-template-columns: 1fr 1.6fr; gap: 32px; } .contact-card { padding: 28px 22px; } .contact-card h2 { font-size: 18px; } }
+@media(max-width:720px) { .institutional { padding-top: 44px; padding-bottom: 60px; } .contact-page { grid-template-columns: 1fr; gap: 44px; } .contact-form-row, .company-gallery { grid-template-columns: 1fr; gap: 22px; } .institutional-title { font-size: 26px; } .company-copy { font-size: 16px; } .company-gallery { margin-top: 32px; } }

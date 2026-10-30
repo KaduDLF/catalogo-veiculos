@@ -71,14 +71,14 @@
 
                 <span class="nav-separator"></span>
 
-                <a href="#empresa" class="nav-link">
+                <a href="{{ route('empresa') }}" class="nav-link {{ request()->routeIs('empresa') ? 'nav-link--active' : '' }}">
                     <img src="{{ asset('images/icons/icon-location.png') }}" alt="Empresa" class="nav-icon">
                     <span>Empresa</span>
                 </a>
 
                 <span class="nav-separator"></span>
 
-                <a href="#contato" class="nav-link">
+                <a href="{{ route('contato') }}" class="nav-link {{ request()->routeIs('contato') ? 'nav-link--active' : '' }}">
                     <img src="{{ asset('images/icons/icon-mail.png') }}" alt="Contato" class="nav-icon">
                     <span>Contato</span>
                 </a>
@@ -132,8 +132,8 @@
                     <span class="footer-line"></span>
                     <a href="{{ route('home') }}">› Home</a>
                     <a href="{{ route('veiculos.index') }}">› Veículos</a>
-                    <a href="#empresa">› Empresa</a>
-                    <a href="#contato">› Contato</a>
+                    <a href="{{ route('empresa') }}">› Empresa</a>
+                    <a href="{{ route('contato') }}">› Contato</a>
                 </div>
 
                 <div class="footer-column" id="empresa">
@@ -148,7 +148,7 @@
                 <div class="footer-column" id="contato">
                     <h3>Contato</h3>
                     <span class="footer-line"></span>
-                    <p>(62) 98535-0837<br>(62) 98535-0837<br>l2veiculos@gmail.com</p>
+                    <p>(62) 98535-0837<br>(62) 99641-3235<br>l2veiculos@gmail.com</p>
                 </div>
             </div>
         </div>
