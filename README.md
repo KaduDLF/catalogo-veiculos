@@ -87,8 +87,10 @@ ausência de duplicatas, preços inválidos, indisponibilidade e estoque vazio.
 
 ## Empresa e Contato
 
-- `/empresa`: apresentação da loja. A galeria aguarda as fotos originais: adicione
-  arquivos em `public/images/empresa` e entradas `src`/`alt` em `config/empresa.php`.
+- `/empresa`: apresentação da loja e galeria com quatro imagens, em duas colunas
+  no desktop e uma no celular. Arquivos em `public/images/empresa` e ordem/textos
+  alternativos em `config/empresa.php`. As imagens atuais são provisórias de
+  demonstração e devem ser substituídas pelas fotos definitivas fornecidas pela loja.
 - `/contato`: formulário validado, proteção CSRF e limite de cinco envios por minuto.
   As mensagens são gravadas em `contato_mensagens`; não há envio de e-mail nem
   tela administrativa de leitura nesta etapa. O botão WhatsApp permite contato direto.
