@@ -12,7 +12,7 @@
         <label class="sr-only" for="modelo">Modelo</label>
         <select name="modelo" id="modelo"><option value="">Modelos</option>@foreach($modelos as $modelo)<option @selected(($filters['modelo'] ?? '') === $modelo)>{{ $modelo }}</option>@endforeach</select>
         <button class="action-button" type="submit">Aplicar filtros</button>
-        <a href="{{ route('veiculos.index') }}">Limpar filtros</a>
+        <a class="catalog-control clear-filters" href="{{ route('veiculos.index') }}"><span aria-hidden="true">↺</span> Limpar filtros</a>
     </form>
     <section class="catalog-results" aria-label="Veículos disponíveis">
         <div class="catalog-toolbar">
@@ -44,11 +44,21 @@
                 <p>Nenhum veículo encontrado. Experimente outros filtros.</p>
             @endforelse
         </div>
-        <nav class="catalog-pagination" aria-label="Paginação">
-            @if($veiculos->previousPageUrl())<a href="{{ $veiculos->previousPageUrl() }}">← Anterior</a>@endif
-            @if($veiculos->hasPages())<span>Página {{ $veiculos->currentPage() }} de {{ $veiculos->lastPage() }}</span>@endif
-            @if($veiculos->nextPageUrl())<a href="{{ $veiculos->nextPageUrl() }}">Próxima →</a>@endif
-        </nav>
+        @if($veiculos->hasPages())
+            <nav class="catalog-pagination" aria-label="Paginação">
+                @if($veiculos->previousPageUrl())
+                    <a class="catalog-control" href="{{ $veiculos->previousPageUrl() }}" rel="prev"><span aria-hidden="true">←</span> Anterior</a>
+                @else
+                    <span class="catalog-control" aria-disabled="true"><span aria-hidden="true">←</span> Anterior</span>
+                @endif
+                <span class="catalog-pagination__status">Página <strong>{{ $veiculos->currentPage() }}</strong> de {{ $veiculos->lastPage() }}</span>
+                @if($veiculos->nextPageUrl())
+                    <a class="catalog-control" href="{{ $veiculos->nextPageUrl() }}" rel="next">Próxima <span aria-hidden="true">→</span></a>
+                @else
+                    <span class="catalog-control" aria-disabled="true">Próxima <span aria-hidden="true">→</span></span>
+                @endif
+            </nav>
+        @endif
     </section>
 </main>
 @endsection

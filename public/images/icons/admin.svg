@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="dashboard" viewBox="0 0 24 24"><path d="M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="veiculos" viewBox="0 0 24 24"><path d="M4 11l2-6h12l2 6 M3 11h18v7H3z M5 18v2m14-2v2 M6 14h2m8 0h2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="mensagens" viewBox="0 0 24 24"><path d="M3 5h18v14H3z M3 6l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="config" viewBox="0 0 24 24"><path d="M3 6h7m5 0h6M3 17h12m5 0h1 M10 3h5v6h-5z M15 14h5v6h-5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="share" viewBox="0 0 24 24"><path d="M8 11l8-5M8 13l8 5 M8 12a3 3 0 1 1-6 0 3 3 0 1 1 6 0 M22 5a3 3 0 1 1-6 0 3 3 0 1 1 6 0 M22 19a3 3 0 1 1-6 0 3 3 0 1 1 6 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="copy" viewBox="0 0 24 24"><path d="M8 8h12v13H8z M16 5V3H3v13h2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'L2 Veículos')</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo/LogoL2.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,8 +24,8 @@
             <div class="top-header__info">
                 <div class="info-block info-block--address">
                     <strong>Endereço</strong>
-                    <span>Rua Frutuoso Alves Guimarães</span>
-                    <span>Centro - Rialma - GO</span>
+                    <span>{{ $loja['endereco'] }}</span>
+                    <span>{{ $loja['cidade'] }}</span>
                 </div>
 
                 <div class="top-header__divider"></div>
@@ -32,19 +33,19 @@
                 <div class="info-block">
                     <strong>Telefone</strong>
                     <a class="phone-row"
-                    href="https://wa.me/5562985350837"
+                    href="{{ \App\Support\Loja::whatsapp() }}"
                     target="_blank"
                     rel="noopener noreferrer">
                         <img src="{{ asset('images/icons/icon-wpp.png') }}" alt="WhatsApp">
-                        <span>(62) 98535-0837</span>
+                        <span>{{ $loja['telefone'] }}</span>
                     </a>
 
                     <a class="phone-row"
-                    href="https://wa.me/5562996413235"
+                    href="{{ \App\Support\Loja::whatsapp('telefone2') }}"
                     target="_blank"
                     rel="noopener noreferrer">
                         <img src="{{ asset('images/icons/icon-wpp.png') }}" alt="WhatsApp">
-                        <span>(62) 99641-3235</span>
+                        <span>{{ $loja['telefone2'] }}</span>
                     </a>
                 </div>
             </div>
@@ -104,8 +105,8 @@
                     >
 
                     <div>
-                        <strong>Rua Frutuoso Alves Guimarães</strong>
-                        <strong>Centro - Rialma - GO</strong>
+                        <strong>{{ $loja['endereco'] }}</strong>
+                        <strong>{{ $loja['cidade'] }}</strong>
                     </div>
                 </div>
 
@@ -117,8 +118,8 @@
                     >
 
                     <div>
-                        <strong>Segunda à Sexta: 8hs às 18hs</strong>
-                        <strong>Sábado: 8hs às 12:00</strong>
+                        <strong>{{ $loja['semana'] }}</strong>
+                        <strong>{{ $loja['sabado'] }}</strong>
                     </div>
                 </div>
 
@@ -139,16 +140,16 @@
                 <div class="footer-column" id="empresa">
                     <h3>Endereço</h3>
                     <span class="footer-line"></span>
-                    <p>Rua Frutuoso Alves Guimarães<br>Centro - Rialma - GO</p>
+                    <p>{{ $loja['endereco'] }}<br>{{ $loja['cidade'] }}</p>
                     <h3 class="footer-column__subheading">Horário</h3>
                     <span class="footer-line"></span>
-                    <p>Segunda à Sexta: 8hs às 18hs<br>Sábado: 8hs às 12:00</p>
+                    <p>{{ $loja['semana'] }}<br>{{ $loja['sabado'] }}</p>
                 </div>
 
                 <div class="footer-column" id="contato">
                     <h3>Contato</h3>
                     <span class="footer-line"></span>
-                    <p>(62) 98535-0837<br>(62) 99641-3235<br>l2veiculos@gmail.com</p>
+                    <p>{{ $loja['telefone'] }}<br>{{ $loja['telefone2'] }}<br>{{ $loja['email'] }}</p>
                 </div>
             </div>
         </div>
@@ -157,5 +158,17 @@
             <p>Desenvolvido por <span>Carlos Eduardo</span></p>
         </div>
     </footer>
+    <nav class="social-float" aria-label="Redes sociais e atendimento">
+        <a class="social-float__link social-float__link--instagram" href="{{ $loja['instagram'] }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram da L2 Veículos (abre em nova aba)" title="Siga a L2 no Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+            </svg>
+        </a>
+        <a class="social-float__link social-float__link--whatsapp" href="{{ \App\Support\Loja::whatsapp() }}" target="_blank" rel="noopener noreferrer" aria-label="Conversar com a L2 Veículos no WhatsApp (abre em nova aba)" title="Converse pelo WhatsApp">
+            <img src="{{ asset('images/icons/icon-wpp.png') }}" alt="" width="32" height="32">
+        </a>
+    </nav>
 </body>
 </html>

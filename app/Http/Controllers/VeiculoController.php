@@ -42,6 +42,12 @@ class VeiculoController
     public function show(Veiculo $veiculo): View
     {
         abort_unless($veiculo->disponivel, 404);
+        if (!request()->isMethod('HEAD')) {
+            \Illuminate\Support\Facades\DB::table('visitas')->insertOrIgnore([
+                'veiculo_id' => $veiculo->id, 'created_at' => now(),
+                'sessao' => hash_hmac('sha256', session()->getId(), config('app.key')),
+            ]);
+        }
         $fotos = collect([$veiculo->foto, ...($veiculo->fotos ?? [])])->filter()->unique()->values();
 
         return view('veiculos.show', compact('veiculo', 'fotos'));

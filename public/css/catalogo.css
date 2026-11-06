@@ -14,7 +14,78 @@
 @media(max-width:1200px){.catalog{gap:26px;grid-template-columns:210px minmax(0,1fr)}.catalog-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.catalog-toolbar{flex-wrap:wrap}.catalog-toolbar h1{width:100%}.catalog-cards[data-mode=lista] .catalog-card{gap:20px}.vehicle-specs{gap:4px!important}.detail-grid,.detail-heading{gap:24px}}
 @media(max-width:720px){.catalog{display:block;padding-top:40px;padding-bottom:70px;min-height:0}.catalog-filters{margin-bottom:32px;gap:12px}.catalog-toolbar h1{font-size:15px}.catalog-toolbar select{width:auto;flex:1}.catalog-cards{grid-template-columns:1fr}.catalog-cards[data-mode=lista] .catalog-card{display:block}.catalog-cards[data-mode=lista] .catalog-photo{height:230px;min-height:0}.vehicle-detail{padding-top:40px;padding-bottom:70px}.detail-heading,.detail-grid{display:flex;flex-direction:column;align-items:stretch;gap:20px}.detail-heading h1{font-size:26px}.detail-heading .catalog-price{text-align:left}.vehicle-information{min-height:0}.gallery-thumbnails button{height:75px}.gallery-main>span{font-size:12px}.gallery-main button{width:32px;height:32px}.vehicle-actions .action-button{font-size:12px}.detail-panel{padding:18px}}
 
+/* Controles do estoque e navegação entre páginas. */
+.catalog-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 46px;
+    padding: 11px 18px;
+    border: 1px solid #c4d9ef;
+    border-radius: 10px;
+    background: #fff;
+    color: #075ba8;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background-color .15s, border-color .15s, box-shadow .15s;
+}
+.catalog-control > [aria-hidden] { font-size: 20px; line-height: 1; }
+a.catalog-control:hover { background: #edf5ff; border-color: var(--blue); box-shadow: 0 3px 10px rgba(0, 110, 220, .08); }
+a.catalog-control:active { background: #dcecff; }
+.clear-filters { width: 100%; }
+.catalog-filters > .action-button { min-height: 46px; border-radius: 10px; font-size: 14px; }
+.catalog-pagination { align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 44px; }
+.catalog-pagination a { color: #075ba8; }
+.catalog-pagination .catalog-control { min-width: 118px; }
+.catalog-control[aria-disabled=true] { color: #757e89; border-color: var(--line); background: #eef0f3; cursor: default; }
+.catalog-pagination__status { padding: 12px 18px; border-radius: 10px; background: #e8f1fb; color: #42566e; font-size: 14px; white-space: nowrap; }
+.catalog-pagination__status strong { color: #075ba8; }
+@media (max-width: 420px) {
+    .catalog-pagination { gap: 8px; }
+    .catalog-pagination .catalog-control { min-width: 0; padding: 11px 12px; gap: 6px; }
+    .catalog-pagination__status { order: -1; flex-basis: 100%; text-align: center; }
+    .catalog-pagination .catalog-control { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .catalog-control { transition: none; } }
+
 /* Navegação compacta: busca sempre visível, links recolhidos. */
+.social-float {
+    position: fixed;
+    right: max(24px, env(safe-area-inset-right));
+    bottom: max(24px, env(safe-area-inset-bottom));
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.social-float__link {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(2, 10, 18, .22);
+    transition: transform .15s, box-shadow .15s;
+}
+.social-float__link--instagram { background: linear-gradient(35deg, #f9a543, #df2765 50%, #7945c6); }
+.social-float__link--whatsapp { background: #109651; }
+.social-float__link svg, .social-float__link img { width: 32px; height: 32px; object-fit: contain; }
+.social-float__link:focus-visible { outline: 3px solid #075ba8; outline-offset: 4px; }
+@media (hover: hover) {
+    .social-float__link:hover { transform: translateY(-3px); box-shadow: 0 7px 20px rgba(2, 10, 18, .3); }
+}
+@media (max-width: 720px) {
+    .social-float { right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); gap: 10px; }
+    .social-float__link { width: 48px; height: 48px; }
+    .social-float__link svg, .social-float__link img { width: 28px; height: 28px; }
+    .footer-bottom { padding-bottom: 140px; }
+}
+@media (prefers-reduced-motion: reduce) { .social-float__link { transition: none; } }
 .nav-toggle { display: none; }
 #empresa, #contato { scroll-margin-top: 24px; }
 @media (max-width: 1100px) {

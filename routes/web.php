@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VeiculoController;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__.'/admin.php';
+
 Route::get('/', HomeController::class)->name('home');
 Route::view('/empresa', 'pages.empresa')->name('empresa');
 Route::view('/contato', 'pages.contato')->name('contato');

@@ -1,0 +1,1 @@
+@if($lista->hasPages())<nav class="pager">@if($lista->previousPageUrl())<a href="{{ $lista->previousPageUrl() }}">← Anterior</a>@endif Página {{ $lista->currentPage() }} de {{ $lista->lastPage() }} @if($lista->nextPageUrl())<a href="{{ $lista->nextPageUrl() }}">Próxima →</a>@endif</nav>@endif

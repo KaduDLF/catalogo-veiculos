@@ -7,7 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Veiculo extends Model
 {
+    public const ITENS = ['Chave reserva', 'Manual do proprietário', 'Veículo revisado'];
+
+    public function combustiveisPermitidos(): array
+    {
+        return array_values(array_unique(array_filter(['Flex', 'Gasolina', 'Etanol', 'Diesel', $this->combustivel])));
+    }
+
+    public function visitas()
+    {
+        return $this->hasMany(Visita::class);
+    }
+
+    public function getStatusAttribute(): string
+    {
+        return $this->disponivel ? 'Disponível' : ($this->data_venda ? 'Vendido' : 'Em preparação');
+    }
+
     protected $fillable = [
+        'data_venda', 'itens_confirmados',
         'nome', 'ano', 'km', 'cambio', 'preco', 'foto',
         'disponivel', 'em_promocao', 'preco_promocional',
         'marca', 'modelo', 'versao', 'cor', 'combustivel', 'descricao', 'opcionais', 'fotos',
@@ -17,6 +35,7 @@ class Veiculo extends Model
     {
         return [
             'opcionais' => 'array',
+            'itens_confirmados' => 'array',
             'fotos' => 'array',
             'km' => 'integer',
             'preco' => 'decimal:2',
@@ -33,7 +52,7 @@ class Veiculo extends Model
 
     public function getWhatsappUrlAttribute(): string
     {
-        return 'https://wa.me/5562985350837?text='.rawurlencode('Olá! Tenho interesse no veículo '.$this->nome.'. '.route('veiculos.show', $this));
+        return \App\Support\Loja::whatsapp().'?text='.rawurlencode('Olá! Tenho interesse no veículo '.$this->nome.'. '.route('veiculos.show', $this));
     }
 
     public function scopeEmPromocao(Builder $query): Builder

@@ -5,9 +5,9 @@
     <section aria-labelledby="contact-title">
         <h1 class="institutional-title" id="contact-title">Contato</h1>
         <div class="contact-card">
-            <section><h2><img src="{{ asset('images/icons/icon-location.png') }}" alt=""> Endereço</h2><p>Rua Frutuoso Alves Guimarães<br>Centro — Rialma — GO</p></section>
-            <section><h2><img src="{{ asset('images/icons/icon-wpp.png') }}" alt=""> Telefone e WhatsApp</h2><p><a href="https://wa.me/5562985350837" target="_blank" rel="noopener noreferrer">(62) 98535-0837</a><br><a href="https://wa.me/5562996413235" target="_blank" rel="noopener noreferrer">(62) 99641-3235</a></p></section>
-            <section><h2><img src="{{ asset('images/icons/icon-clock.png') }}" alt=""> Horário de atendimento</h2><p>Segunda a sexta: 8h às 18h<br>Sábado: 8h às 12h</p></section>
+            <section><h2><img src="{{ asset('images/icons/icon-location.png') }}" alt=""> Endereço</h2><p>{{ $loja['endereco'] }}<br>{{ $loja['cidade'] }}</p></section>
+            <section><h2><img src="{{ asset('images/icons/icon-wpp.png') }}" alt=""> Telefone e WhatsApp</h2><p><a href="{{ \App\Support\Loja::whatsapp() }}" target="_blank" rel="noopener noreferrer">{{ $loja['telefone'] }}</a><br><a href="{{ \App\Support\Loja::whatsapp('telefone2') }}" target="_blank" rel="noopener noreferrer">{{ $loja['telefone2'] }}</a></p></section>
+            <section><h2><img src="{{ asset('images/icons/icon-clock.png') }}" alt=""> Horário de atendimento</h2><p>{{ $loja['semana'] }}<br>{{ $loja['sabado'] }}</p></section>
         </div>
     </section>
     <section aria-labelledby="form-title">
@@ -26,7 +26,7 @@
             <label>Mensagem<textarea name="mensagem" placeholder="Escreva sua mensagem..." rows="5" minlength="10" maxlength="5000" required>{{ old('mensagem') }}</textarea></label>
             <button class="action-button contact-submit" type="submit">Enviar mensagem</button>
         </form>
-        <div class="contact-direct"><p>Prefere um atendimento direto?</p><a href="https://wa.me/5562985350837" class="whatsapp-outline" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icons/icon-wpp.png') }}" alt=""> Conversar pelo WhatsApp</a></div>
+        <div class="contact-direct"><p>Prefere um atendimento direto?</p><a href="{{ \App\Support\Loja::whatsapp() }}" class="whatsapp-outline" target="_blank" rel="noopener noreferrer"><img src="{{ asset('images/icons/icon-wpp.png') }}" alt=""> Conversar pelo WhatsApp</a></div>
     </section>
 </main>
 @endsection

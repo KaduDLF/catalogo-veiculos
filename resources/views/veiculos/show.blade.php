@@ -2,7 +2,7 @@
 @section('title', $veiculo->nome.' | L2 Veículos')
 @section('content')
 <main class="container vehicle-detail">
-    <a class="back-link" href="{{ route('veiculos.index') }}">← Voltar ao estoque</a>
+    <a class="catalog-control back-link" href="{{ route('veiculos.index') }}"><span aria-hidden="true">←</span> Voltar ao estoque</a>
     <div class="detail-heading"><h1>{{ $veiculo->nome }} {{ $veiculo->ano }}</h1>@include('veiculos.price')</div>
     <div class="detail-grid">
         <div>
