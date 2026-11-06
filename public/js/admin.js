@@ -66,27 +66,59 @@ if (form) {
 
     const gallery = document.querySelector('#gallery');
     const existing = JSON.parse(gallery.dataset.existing);
+    const removedPhotos = document.querySelector('#removed-photos');
+    const removed = new Set();
+    let selectedFiles = [];
     let temporary = [];
     function renderGallery() {
         temporary.forEach(url => URL.revokeObjectURL(url));
-        temporary = Array.from(fields['imagens[]'].files, file => URL.createObjectURL(file));
+        temporary = selectedFiles.map(file => URL.createObjectURL(file));
+        removedPhotos.replaceChildren(...[...removed].map(index => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'remover_fotos[]';
+            input.value = index;
+            return input;
+        }));
         gallery.replaceChildren();
-        [...existing, ...temporary].forEach((url, index) => {
+        const photos = [
+            ...existing.map((url, index) => ({ url, index, saved: true })).filter(photo => !removed.has(photo.index)),
+            ...temporary.map((url, index) => ({ url, index, saved: false })),
+        ];
+        photos.forEach(({ url, index, saved }, position) => {
             const label = document.createElement('label');
             const photo = document.createElement('img');
             photo.src = url;
-            photo.alt = 'Foto ' + (index + 1);
+            photo.alt = 'Foto ' + (position + 1);
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = 'capa';
-            radio.value = index;
-            radio.checked = index === 0;
-            label.append(photo, radio, ' Capa');
+            radio.value = position;
+            radio.checked = position === 0;
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'gallery-remove';
+            remove.textContent = 'Remover';
+            remove.addEventListener('click', () => {
+                if (saved) {
+                    removed.add(index);
+                } else {
+                    selectedFiles.splice(index, 1);
+                    const transfer = new DataTransfer();
+                    selectedFiles.forEach(file => transfer.items.add(file));
+                    fields['imagens[]'].files = transfer.files;
+                }
+                renderGallery();
+            });
+            label.append(photo, radio, ' Capa', remove);
             gallery.append(label);
         });
         if (!gallery.childElementCount) gallery.textContent = 'Nenhuma foto adicionada.';
     }
-    fields['imagens[]'].addEventListener('change', renderGallery);
+    fields['imagens[]'].addEventListener('change', () => {
+        selectedFiles = Array.from(fields['imagens[]'].files);
+        renderGallery();
+    });
     renderGallery();
 
     const customItem = document.querySelector('#custom-ad-item');

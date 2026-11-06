@@ -54,6 +54,13 @@ class AdminTest extends TestCase
         $this->post('/admin/veiculos',$dados+['imagens'=>[UploadedFile::fake()->createWithContent('capa.png',$png)]])->assertSessionHasNoErrors()->assertRedirect('/admin/veiculos');
         $v = Veiculo::firstOrFail();
         Storage::disk('public')->assertExists(substr($v->foto,8));
+        $primeiraFoto = $v->foto;
+        $this->put('/admin/veiculos/'.$v->id, $dados + ['imagens' => [UploadedFile::fake()->createWithContent('segunda.png', $png)]])->assertSessionHasNoErrors();
+        $this->assertCount(2, $v->fresh()->fotos);
+        $this->put('/admin/veiculos/'.$v->id, $dados + ['remover_fotos' => [0]])->assertSessionHasNoErrors();
+        $this->assertCount(1, $v->fresh()->fotos);
+        $this->assertNotSame($primeiraFoto, $v->fresh()->foto);
+        Storage::disk('public')->assertMissing(substr($primeiraFoto, 8));
         $this->assertSame($dados['itens_confirmados'], $v->itens_confirmados);
         $this->get('/admin/veiculos/'.$v->id.'/edit')->assertOk()->assertSee('Chave reserva')->assertSee('Tanque cheio')->assertSee('Película instalada');
         $this->withCookie(config('session.cookie'), session()->getId());

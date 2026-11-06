@@ -63,7 +63,7 @@ class EstoqueController
             'em_promocao'=>'sometimes|boolean','preco_promocional'=>'exclude_unless:em_promocao,1|required|numeric|min:0.01|lt:preco|decimal:0,2',
             'itens_confirmados'=>'nullable|array|max:30','itens_confirmados.*'=>'required|string|max:100',
             'opcionais'=>'nullable|string|max:3000','imagens'=>'nullable|array|max:15','imagens.*'=>'required|image|mimes:jpeg,png,webp,heic,heif|max:5120',
-            'capa'=>'nullable|integer|min:0',
+            'capa'=>'nullable|integer|min:0','remover_fotos'=>'nullable|array|max:15','remover_fotos.*'=>'integer|min:0',
         ]);
         $dados['ano'] = $dados['fabricacao'].'/'.$dados['ano_modelo'];
         $dados['disponivel'] = $dados['status'] === 'estoque';
@@ -73,10 +73,17 @@ class EstoqueController
         $dados['itens_confirmados'] = array_values(array_unique(array_filter(array_map('trim', $dados['itens_confirmados'] ?? []))));
         $dados['opcionais'] = array_values(array_filter(array_map('trim', explode(',', $dados['opcionais'] ?? ''))));
         $novas = [];
+        $removidas = [];
         try {
-            DB::transaction(function () use ($veiculo, $dados, $request, &$novas) {
+            DB::transaction(function () use ($veiculo, $dados, $request, &$novas, &$removidas) {
                 $registro = $veiculo->exists ? Veiculo::lockForUpdate()->findOrFail($veiculo->id) : $veiculo;
-                $fotos = array_values(array_unique(array_filter([$registro->foto, ...($registro->fotos ?? [])])));
+                $originais = array_values(array_unique(array_filter([$registro->foto, ...($registro->fotos ?? [])])));
+                $indices = array_unique($dados['remover_fotos'] ?? []);
+                if (array_filter($indices, fn ($indice) => $indice >= count($originais))) {
+                    throw ValidationException::withMessages(['remover_fotos' => 'A lista de fotos mudou. Recarregue a página e tente novamente.']);
+                }
+                $removidas = array_values(array_intersect_key($originais, array_flip($indices)));
+                $fotos = array_values(array_diff_key($originais, array_flip($indices)));
                 $arquivos = $request->file('imagens', []);
                 $total = count($fotos) + count($arquivos);
                 $capa = (int) ($dados['capa'] ?? 0);
@@ -97,6 +104,11 @@ class EstoqueController
         } catch (\Throwable $error) {
             Storage::disk('public')->delete($novas);
             throw $error;
+        }
+        foreach ($removidas as $foto) {
+            if (str_starts_with($foto, 'storage/veiculos/')) {
+                Storage::disk('public')->delete(substr($foto, 8));
+            }
         }
         return to_route('admin.veiculos.index')->with('ok', 'Veículo salvo.');
     }
