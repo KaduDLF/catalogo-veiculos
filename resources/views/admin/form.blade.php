@@ -28,7 +28,7 @@
 <label id="sale-date">Data da venda<input type="date" name="data_venda" max="{{ now('America/Sao_Paulo')->toDateString() }}" value="{{ old('data_venda',$veiculo->data_venda) }}"></label>
 </div><label>Descrição<textarea name="descricao" rows="5" placeholder="Descrição e detalhes do veículo...">{{ old('descricao',$veiculo->descricao) }}</textarea></label>
 <label>Opcionais (separados por vírgula)<input name="opcionais" value="{{ old('opcionais',implode(', ',$veiculo->opcionais??[])) }}"></label>
-<h2>Fotos do veículo</h2><label class="upload">Adicionar fotos<input type="file" name="imagens[]" multiple accept="image/jpeg,image/png,image/webp"><small>Até 15 fotos, com até 5 MB cada.</small></label>
+<h2>Fotos do veículo</h2><label class="upload">Adicionar fotos<input type="file" name="imagens[]" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"><small>Até 15 fotos, com até 5 MB cada. Fotos HEIC/HEIF do iPhone são convertidas para JPEG.</small></label>
 <h3>Galeria do veículo</h3><div id="gallery" data-existing='@json(array_map(fn ($p)=>asset($p),$fotos))'></div>
 <h2>Publicação e promoção</h2><div class="grid"><div class="offer-field"><span>Oferta no catálogo</span><label class="check"><input type="checkbox" name="em_promocao" value="1" @checked(old('status') ? old('em_promocao') : $veiculo->em_promocao)> Colocar em promoção</label></div>
 <label>Preço promocional (R$)<input name="preco_promocional" type="number" step=".01" min=".01" value="{{ old('preco_promocional',$veiculo->preco_promocional) }}"><small>Informe um valor menor que o preço normal.</small></label></div>

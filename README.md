@@ -104,3 +104,14 @@ Para receber notificações por e-mail em produção, configure no `.env` do ser
 O endereço de origem deve ser autorizado pelo provedor SMTP. Execute
 `php artisan optimize:clear` após alterar o `.env`. Com `MAIL_MAILER=log`, as
 mensagens são apenas gravadas no log, sem entrega por e-mail.
+
+## Upload de fotos no VPS
+
+O cadastro aceita até 15 fotos de 5 MB cada em JPEG, PNG, WebP, HEIC ou HEIF.
+Arquivos HEIC/HEIF são convertidos para JPEG antes de serem publicados. No Ubuntu,
+instale `libheif-examples` e `libheif-plugin-libde265` para disponibilizar o
+`heif-convert` com suporte às fotos do iPhone. Configure o Nginx com
+`client_max_body_size 90M` e o PHP-FPM com `upload_max_filesize=6M`,
+`post_max_size=90M` e `max_file_uploads=20`; reinicie o PHP-FPM e recarregue o
+Nginx após a alteração. Esses limites permitem o envio simultâneo de até 15
+arquivos sem desativar a validação individual de 5 MB do aplicativo.

@@ -62,7 +62,7 @@ class EstoqueController
             'status'=>'required|in:estoque,preparacao,vendido','data_venda'=>'exclude_unless:status,vendido|required|date_format:Y-m-d|before_or_equal:today',
             'em_promocao'=>'sometimes|boolean','preco_promocional'=>'exclude_unless:em_promocao,1|required|numeric|min:0.01|lt:preco|decimal:0,2',
             'itens_confirmados'=>'nullable|array|max:30','itens_confirmados.*'=>'required|string|max:100',
-            'opcionais'=>'nullable|string|max:3000','imagens'=>'nullable|array|max:15','imagens.*'=>'required|image|mimes:jpeg,png,webp|max:5120',
+            'opcionais'=>'nullable|string|max:3000','imagens'=>'nullable|array|max:15','imagens.*'=>'required|image|mimes:jpeg,png,webp,heic,heif|max:5120',
             'capa'=>'nullable|integer|min:0',
         ]);
         $dados['ano'] = $dados['fabricacao'].'/'.$dados['ano_modelo'];
@@ -84,7 +84,7 @@ class EstoqueController
                     throw ValidationException::withMessages(['imagens'=>'Confira a capa e o limite de 15 fotos por veículo.']);
                 }
                 foreach ($arquivos as $arquivo) {
-                    $path = $arquivo->store('veiculos', 'public');
+                    $path = $this->guardarFoto($arquivo);
                     throw_unless($path, \RuntimeException::class, 'Falha ao armazenar foto.');
                     $novas[] = $path;
                     $fotos[] = 'storage/'.$path;
@@ -99,6 +99,36 @@ class EstoqueController
             throw $error;
         }
         return to_route('admin.veiculos.index')->with('ok', 'Veículo salvo.');
+    }
+
+    private function guardarFoto(\Illuminate\Http\UploadedFile $arquivo): string|false
+    {
+        if (! in_array($arquivo->getMimeType(), ['image/heic', 'image/heif', 'image/heic-sequence', 'image/heif-sequence'], true)) {
+            return $arquivo->store('veiculos', 'public');
+        }
+
+        $temporario = sys_get_temp_dir().'/l2-'.\Illuminate\Support\Str::random(32).'.jpg';
+
+        try {
+            $processo = new \Symfony\Component\Process\Process(['heif-convert', '-q', '85', $arquivo->getRealPath(), $temporario]);
+            $processo->setTimeout(60)->run();
+            if (! $processo->isSuccessful() || ! is_file($temporario) || filesize($temporario) === 0) {
+                throw \Illuminate\Validation\ValidationException::withMessages(['imagens' => 'Não foi possível converter a foto HEIC. Tente outra imagem.']);
+            }
+
+            return \Illuminate\Support\Facades\Storage::disk('public')->putFileAs(
+                'veiculos', new \Illuminate\Http\File($temporario), \Illuminate\Support\Str::random(40).'.jpg'
+            );
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
+        } catch (\Throwable $e) {
+            report($e);
+            throw \Illuminate\Validation\ValidationException::withMessages(['imagens' => 'Não foi possível converter a foto HEIC. Confira se o conversor está instalado.']);
+        } finally {
+            if (is_file($temporario)) {
+                unlink($temporario);
+            }
+        }
     }
 
     public function destroy(Veiculo $veiculo)
