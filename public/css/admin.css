@@ -49,10 +49,16 @@ summary { list-style:none; }
 .upload { padding:28px; align-items:center; background:#f7f9fc; border:1px solid var(--line); border-radius:10px; }
 .upload input { width:auto; max-width:100%; }
 #gallery,.wrap,.tabs,.pager { display:flex; flex-wrap:wrap; gap:12px; }
-#gallery img { width:110px; height:76px; object-fit:cover; border-radius:8px; }
-#gallery label { display:block; } #gallery img { display:block; }
+#gallery { gap:18px; }
+.gallery-card { width:210px; max-width:100%; }
+.gallery-media { position:relative; height:156px; overflow:hidden; border-radius:10px; background:#e5ebf0; }
+.gallery-media img { display:block; width:100%; height:100%; object-fit:cover; }
+.gallery-cover { display:flex; align-items:center; gap:6px; margin-top:8px; font-size:13px; cursor:pointer; }
 .gallery-help { color:var(--muted); font-size:13px; }
-.gallery-remove { display:block; margin-top:6px; padding:4px 8px; background:#fff0f1; color:#941d29; border:1px solid #e6a8af; border-radius:6px; cursor:pointer; }
+.gallery-remove { position:absolute; top:8px; right:8px; display:grid; place-items:center; width:38px; height:38px; padding:0; background:rgba(21,27,38,.8); color:white; border:1px solid rgba(255,255,255,.7); border-radius:9px; cursor:pointer; }
+.gallery-remove svg { width:20px; height:20px; }
+.gallery-remove:hover,.gallery-remove:focus-visible { background:#a52b39; }
+@media(max-width:700px) { .gallery-card { width:100%; } .gallery-media { height:190px; } }
 input[type=checkbox],input[type=radio] { width:auto; min-height:0; }
 .check { align-self:start; flex-direction:row; align-items:center; padding:12px; border:1px solid var(--line); border-radius:10px; }
 .offer-field > span { display:block; font-size:14px; font-weight:600; margin-bottom:6px; }

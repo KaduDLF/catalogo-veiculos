@@ -86,10 +86,15 @@ if (form) {
             ...temporary.map((url, index) => ({ url, index, saved: false })),
         ];
         photos.forEach(({ url, index, saved }, position) => {
-            const label = document.createElement('label');
+            const card = document.createElement('div');
+            card.className = 'gallery-card';
+            const media = document.createElement('div');
+            media.className = 'gallery-media';
             const photo = document.createElement('img');
             photo.src = url;
             photo.alt = 'Foto ' + (position + 1);
+            const label = document.createElement('label');
+            label.className = 'gallery-cover';
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = 'capa';
@@ -98,7 +103,14 @@ if (form) {
             const remove = document.createElement('button');
             remove.type = 'button';
             remove.className = 'gallery-remove';
-            remove.textContent = 'Remover';
+            remove.title = 'Remover foto';
+            remove.setAttribute('aria-label', 'Remover foto ' + (position + 1));
+            const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            icon.setAttribute('aria-hidden', 'true');
+            const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+            use.setAttribute('href', gallery.dataset.trashIcon);
+            icon.append(use);
+            remove.append(icon);
             remove.addEventListener('click', () => {
                 if (saved) {
                     removed.add(index);
@@ -110,8 +122,10 @@ if (form) {
                 }
                 renderGallery();
             });
-            label.append(photo, radio, ' Capa', remove);
-            gallery.append(label);
+            media.append(photo, remove);
+            label.append(radio, ' Definir como capa');
+            card.append(media, label);
+            gallery.append(card);
         });
         if (!gallery.childElementCount) gallery.textContent = 'Nenhuma foto adicionada.';
     }
