@@ -253,6 +253,15 @@ a {
     box-shadow: 0 12px 28px rgba(2, 10, 18, .08);
 }
 
+.vehicle-card--promotion {
+    border: 2px solid #e6a100;
+    box-shadow: 0 0 0 3px rgba(230, 161, 0, .16);
+}
+
+.vehicle-card--promotion:hover {
+    box-shadow: 0 0 0 3px rgba(230, 161, 0, .22), 0 12px 28px rgba(2, 10, 18, .08);
+}
+
 .vehicle-card__image {
     height: 180px;
     margin: 16px 16px 0;

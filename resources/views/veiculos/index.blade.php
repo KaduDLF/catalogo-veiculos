@@ -26,7 +26,7 @@
         </div>
         <div class="catalog-cards" data-mode="{{ $filters['visualizacao'] ?? 'grade' }}">
             @forelse($veiculos as $veiculo)
-                <article class="catalog-card">
+                <article class="catalog-card {{ $veiculo->promocao_ativa ? 'catalog-card--promotion' : '' }}">
                     <a class="catalog-photo" href="{{ route('veiculos.show', $veiculo) }}" aria-label="Ver {{ $veiculo->nome }}">
                         @if($veiculo->foto)<img src="{{ asset($veiculo->foto) }}" alt="{{ $veiculo->nome }}" loading="lazy">@else<span>FOTO DO VEÍCULO</span>@endif
                         @if($veiculo->promocao_ativa)<span class="vehicle-card__badge">PROMOÇÃO</span>@endif

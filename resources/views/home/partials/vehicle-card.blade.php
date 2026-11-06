@@ -1,4 +1,4 @@
-<a class="vehicle-card" href="{{ route('veiculos.show', $veiculo) }}" aria-label="Ver detalhes de {{ $veiculo->nome }}" data-veiculo-id="{{ $veiculo->id }}">
+<a class="vehicle-card {{ $veiculo->promocao_ativa ? 'vehicle-card--promotion' : '' }}" href="{{ route('veiculos.show', $veiculo) }}" aria-label="Ver detalhes de {{ $veiculo->nome }}" data-veiculo-id="{{ $veiculo->id }}">
     <div class="vehicle-card__image {{ $veiculo->foto ? '' : 'vehicle-card__image--placeholder' }}">
         @if ($veiculo->foto)
             <img src="{{ asset($veiculo->foto) }}" alt="{{ $veiculo->nome }}" loading="lazy">
