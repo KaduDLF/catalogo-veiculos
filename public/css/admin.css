@@ -60,6 +60,8 @@ input[type=checkbox],input[type=radio] { width:auto; min-height:0; }
 .more-actions { min-height:40px; padding:8px 12px; }
 .row-popover { position:fixed; inset:auto; margin:0; padding:5px; border:1px solid var(--line); border-radius:10px; box-shadow:0 5px 20px #152e5524; }
 .row-popover .danger { min-height:40px; }
+#custom-ad-item { flex:1 1 220px; }
+#ad-item-status { margin-top:8px; }
 .save { text-align:right; margin-top:20px; }
 .scroll { overflow:auto; }
 .stock-row { position:relative; }

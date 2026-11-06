@@ -47,13 +47,15 @@ class AdminTest extends TestCase
             $this->get($url)->assertOk();
         }
         $dados = ['nome'=>'Honda de teste','marca'=>'Honda','modelo'=>'Civic','fabricacao'=>'2021','ano_modelo'=>'2022','preco'=>'105000',
-            'km'=>23000,'cambio'=>'Automático','status'=>'estoque','em_promocao'=>'1','preco_promocional'=>'99000','itens_confirmados'=>['Chave reserva']];
+            'km'=>23000,'cambio'=>'Automático','status'=>'estoque','em_promocao'=>'1','preco_promocional'=>'99000',
+            'itens_confirmados'=>['Chave reserva', 'Tanque cheio', 'Película instalada']];
         $this->post('/admin/veiculos',array_replace($dados,['preco_promocional'=>106000]))->assertSessionHasErrors('preco_promocional');
         $png = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=');
         $this->post('/admin/veiculos',$dados+['imagens'=>[UploadedFile::fake()->createWithContent('capa.png',$png)]])->assertSessionHasNoErrors()->assertRedirect('/admin/veiculos');
         $v = Veiculo::firstOrFail();
         Storage::disk('public')->assertExists(substr($v->foto,8));
-        $this->get('/admin/veiculos/'.$v->id.'/edit')->assertOk()->assertSee('Chave reserva');
+        $this->assertSame($dados['itens_confirmados'], $v->itens_confirmados);
+        $this->get('/admin/veiculos/'.$v->id.'/edit')->assertOk()->assertSee('Chave reserva')->assertSee('Tanque cheio')->assertSee('Película instalada');
         $this->withCookie(config('session.cookie'), session()->getId());
         $this->get('/veiculos/'.$v->id)->assertOk();
         $this->assertDatabaseCount('visitas',1);

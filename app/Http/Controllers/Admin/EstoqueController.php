@@ -61,7 +61,7 @@ class EstoqueController
             'preco'=>'required|numeric|min:0.01|max:9999999999.99|decimal:0,2',
             'status'=>'required|in:estoque,preparacao,vendido','data_venda'=>'exclude_unless:status,vendido|required|date_format:Y-m-d|before_or_equal:today',
             'em_promocao'=>'sometimes|boolean','preco_promocional'=>'exclude_unless:em_promocao,1|required|numeric|min:0.01|lt:preco|decimal:0,2',
-            'itens_confirmados'=>'nullable|array|max:3','itens_confirmados.*'=>[Rule::in(Veiculo::ITENS)],
+            'itens_confirmados'=>'nullable|array|max:30','itens_confirmados.*'=>'required|string|max:100',
             'opcionais'=>'nullable|string|max:3000','imagens'=>'nullable|array|max:15','imagens.*'=>'required|image|mimes:jpeg,png,webp|max:5120',
             'capa'=>'nullable|integer|min:0',
         ]);
@@ -70,7 +70,7 @@ class EstoqueController
         $dados['data_venda'] = $dados['data_venda'] ?? null;
         $dados['em_promocao'] = $dados['disponivel'] && $request->boolean('em_promocao');
         $dados['preco_promocional'] = $dados['em_promocao'] ? $dados['preco_promocional'] : null;
-        $dados['itens_confirmados'] = $dados['itens_confirmados'] ?? [];
+        $dados['itens_confirmados'] = array_values(array_unique(array_filter(array_map('trim', $dados['itens_confirmados'] ?? []))));
         $dados['opcionais'] = array_values(array_filter(array_map('trim', explode(',', $dados['opcionais'] ?? ''))));
         $novas = [];
         try {

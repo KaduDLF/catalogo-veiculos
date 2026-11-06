@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Veiculo extends Model
 {
-    public const ITENS = ['Chave reserva', 'Manual do proprietário', 'Veículo revisado'];
+    public const ITENS = ['Chave reserva', 'Manual do proprietário', 'Veículo revisado', 'Tanque cheio', 'Único dono', 'Pneus novos'];
 
     public function combustiveisPermitidos(): array
     {

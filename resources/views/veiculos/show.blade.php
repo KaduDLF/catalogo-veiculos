@@ -14,7 +14,7 @@
                 @if($fotos->isNotEmpty())<div class="gallery-thumbnails">@foreach($fotos as $foto)<button type="button" data-photo="{{ $loop->index }}" aria-label="Mostrar foto {{ $loop->iteration }}" aria-pressed="{{ $loop->first ? 'true' : 'false' }}"><img src="{{ asset($foto) }}" alt="" loading="lazy"></button>@endforeach</div>@endif
             </section>
             <section class="detail-panel"><h2>Descrição</h2><p class="description">{{ $veiculo->descricao ?: 'Entre em contato para mais informações sobre este veículo.' }}</p></section>
-            <section class="detail-panel"><h2>Opcionais</h2><ul class="option-tags">@forelse($veiculo->opcionais ?? [] as $opcional)<li>{{ $opcional }}</li>@empty<li>Não informados</li>@endforelse</ul></section>
+            <section class="detail-panel"><h2>Opcionais</h2><ul class="option-tags">@forelse($veiculo->opcionais ?? [] as $opcional)<li><span class="option-check" aria-hidden="true">✓</span> {{ $opcional }}</li>@empty<li>Não informados</li>@endforelse</ul></section>
         </div>
         <aside class="detail-panel vehicle-information"><h2>Informações do veículo</h2>
             <dl>@foreach(['Ano' => $veiculo->ano, 'Quilometragem' => number_format($veiculo->km, 0, ',', '.').' km', 'Câmbio' => $veiculo->cambio, 'Combustível' => $veiculo->combustivel ?? 'Não informado', 'Cor' => $veiculo->cor ?? 'Não informada'] as $label => $value)<div><dt>{{ $label }}</dt><dd>{{ $value }}</dd></div>@endforeach</dl>

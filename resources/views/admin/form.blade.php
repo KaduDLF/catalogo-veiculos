@@ -32,7 +32,16 @@
 <h3>Galeria do veículo</h3><div id="gallery" data-existing='@json(array_map(fn ($p)=>asset($p),$fotos))'></div>
 <h2>Publicação e promoção</h2><div class="grid"><div class="offer-field"><span>Oferta no catálogo</span><label class="check"><input type="checkbox" name="em_promocao" value="1" @checked(old('status') ? old('em_promocao') : $veiculo->em_promocao)> Colocar em promoção</label></div>
 <label>Preço promocional (R$)<input name="preco_promocional" type="number" step=".01" min=".01" value="{{ old('preco_promocional',$veiculo->preco_promocional) }}"><small>Informe um valor menor que o preço normal.</small></label></div>
-<h2>Anúncio para Instagram</h2><h3>Itens confirmados neste veículo</h3><div class="actions wrap">@foreach(\App\Models\Veiculo::ITENS as $item)<label class="check"><input name="itens_confirmados[]" value="{{ $item }}" type="checkbox" @checked(in_array($item,old('status')?old('itens_confirmados',[]):($veiculo->itens_confirmados??[])))>{{ $item }}</label>@endforeach<button type="button" id="generate">@include('admin.icon',['icon'=>'share']) Gerar texto do anúncio</button></div>
+<h2>Anúncio para Instagram</h2><h3>Itens confirmados neste veículo</h3>
+@php($itensSelecionados = old('status') ? old('itens_confirmados', []) : ($veiculo->itens_confirmados ?? []))
+<div class="actions wrap" id="ad-items">@foreach(array_unique([...\App\Models\Veiculo::ITENS, ...$itensSelecionados]) as $item)<label class="check"><input name="itens_confirmados[]" value="{{ $item }}" type="checkbox" @checked(in_array($item,$itensSelecionados))>{{ $item }}</label>@endforeach</div>
+<label for="custom-ad-item">Adicionar outro item</label>
+<div class="actions wrap">
+    <input id="custom-ad-item" maxlength="100" placeholder="Ex.: Película instalada">
+    <button type="button" id="add-ad-item">+ Adicionar item</button>
+</div>
+<p id="ad-item-status" role="status"></p>
+<div class="actions wrap"><button type="button" id="generate">@include('admin.icon',['icon'=>'share']) Gerar texto do anúncio</button></div>
 <label>Prévia do texto<textarea id="preview" rows="10"></textarea></label><button class="secondary" type="button" id="copy">@include('admin.icon',['icon'=>'copy']) Copiar texto</button><span id="copy-status" role="status"></span>
 <div class="save"><button>Salvar veículo</button></div></form>
 @endsection

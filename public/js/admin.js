@@ -89,6 +89,49 @@ if (form) {
     fields['imagens[]'].addEventListener('change', renderGallery);
     renderGallery();
 
+    const customItem = document.querySelector('#custom-ad-item');
+    const itemStatus = document.querySelector('#ad-item-status');
+    function addItem() {
+        const value = customItem.value.trim();
+        itemStatus.classList.remove('notice-error');
+        if (!value || value.length > 100) {
+            itemStatus.classList.add('notice-error');
+            itemStatus.textContent = 'Informe um item com até 100 caracteres.';
+            customItem.focus();
+            return;
+        }
+        const inputs = [...form.querySelectorAll('[name="itens_confirmados[]"]')];
+        const existingItem = inputs.find(input => input.value.toLocaleLowerCase() === value.toLocaleLowerCase());
+        if (inputs.filter(input => input.checked).length >= 30 && !existingItem?.checked) {
+            itemStatus.classList.add('notice-error');
+            itemStatus.textContent = 'Selecione até 30 itens por anúncio.';
+            return;
+        }
+        if (existingItem) {
+            existingItem.checked = true;
+        } else {
+            const label = document.createElement('label');
+            label.className = 'check';
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.name = 'itens_confirmados[]';
+            input.value = value;
+            input.checked = true;
+            label.append(input, document.createTextNode(value));
+            document.querySelector('#ad-items').append(label);
+        }
+        itemStatus.textContent = 'Item adicionado. Salve o veículo para guardar as alterações.';
+        customItem.value = '';
+        customItem.focus();
+    }
+    document.querySelector('#add-ad-item').addEventListener('click', addItem);
+    customItem.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            addItem();
+        }
+    });
+
     const preview = document.querySelector('#preview');
     const notice = document.querySelector('#copy-status');
     function feedback(message, isError = false) {

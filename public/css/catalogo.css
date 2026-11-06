@@ -92,9 +92,10 @@ a.catalog-control:active { background: #dcecff; }
     .social-float { right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); gap: 10px; }
     .social-float__link { width: 48px; height: 48px; }
     .social-float__link svg, .social-float__link img { width: 28px; height: 28px; }
-    .footer-bottom { padding-bottom: 140px; }
+    .footer-main { padding-bottom: 140px; }
 }
 @media (prefers-reduced-motion: reduce) { .social-float__link { transition: none; } }
+.option-check { color: #167344; font-weight: 700; margin-right: 4px; }
 .nav-toggle { display: none; }
 #empresa, #contato { scroll-margin-top: 24px; }
 @media (max-width: 1100px) {

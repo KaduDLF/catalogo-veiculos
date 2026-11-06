@@ -154,9 +154,6 @@
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <p>Desenvolvido por <span>Carlos Eduardo</span></p>
-        </div>
     </footer>
     <nav class="social-float" aria-label="Redes sociais e atendimento">
         <a class="social-float__link social-float__link--instagram" href="{{ $loja['instagram'] }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram da L2 Veículos (abre em nova aba)" title="Siga a L2 no Instagram">
