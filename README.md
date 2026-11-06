@@ -92,6 +92,15 @@ ausência de duplicatas, preços inválidos, indisponibilidade e estoque vazio.
   alternativos em `config/empresa.php`. As imagens atuais são provisórias de
   demonstração e devem ser substituídas pelas fotos definitivas fornecidas pela loja.
 - `/contato`: formulário validado, proteção CSRF e limite de cinco envios por minuto.
-  As mensagens são gravadas em `contato_mensagens`; não há envio de e-mail nem
-  tela administrativa de leitura nesta etapa. O botão WhatsApp permite contato direto.
+  As mensagens são gravadas em `contato_mensagens` e podem ser lidas no painel
+  administrativo. Quando `CONTACT_NOTIFICATION_EMAIL` estiver configurado, o site
+  também envia uma cópia por e-mail. Se o SMTP falhar, a mensagem permanece no painel.
+  O botão WhatsApp permite contato direto.
 - Execute `php artisan migrate` ao atualizar a instalação para criar a tabela de mensagens.
+
+Para receber notificações por e-mail em produção, configure no `.env` do servidor
+`CONTACT_NOTIFICATION_EMAIL` (destinatário), `MAIL_MAILER=smtp`, `MAIL_HOST`,
+`MAIL_PORT`, `MAIL_SCHEME`, `MAIL_USERNAME`, `MAIL_PASSWORD` e `MAIL_FROM_ADDRESS`.
+O endereço de origem deve ser autorizado pelo provedor SMTP. Execute
+`php artisan optimize:clear` após alterar o `.env`. Com `MAIL_MAILER=log`, as
+mensagens são apenas gravadas no log, sem entrega por e-mail.
