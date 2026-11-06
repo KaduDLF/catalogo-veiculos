@@ -1,17 +1,28 @@
-document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
-    const mode = button.dataset.view;
-    document.querySelector('.catalog-cards').dataset.mode = mode;
-    document.querySelector('#view-mode').value = mode;
-    document.querySelectorAll('[data-view]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-    const url = new URL(location.href);
-    url.searchParams.set('visualizacao', mode);
-    history.replaceState(null, '', url);
-    document.querySelectorAll('.catalog-pagination a').forEach(link => {
-        const target = new URL(link.href);
-        target.searchParams.set('visualizacao', mode);
-        link.href = target;
-    });
-}));
+const catalogCards = document.querySelector('.catalog-cards');
+if (catalogCards) {
+    const mobileCatalog = window.matchMedia('(max-width: 720px)');
+    let desktopMode = catalogCards.dataset.mode;
+    function applyView() {
+        const mode = mobileCatalog.matches ? 'grade' : desktopMode;
+        catalogCards.dataset.mode = mode;
+        document.querySelector('#view-mode').value = mode;
+        document.querySelectorAll('[data-view]').forEach(item => item.setAttribute('aria-pressed', String(item.dataset.view === mode)));
+        const url = new URL(location.href);
+        url.searchParams.set('visualizacao', mode);
+        history.replaceState(null, '', url);
+        document.querySelectorAll('.catalog-pagination a').forEach(link => {
+            const target = new URL(link.href);
+            target.searchParams.set('visualizacao', mode);
+            link.href = target;
+        });
+    }
+    document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
+        desktopMode = button.dataset.view;
+        applyView();
+    }));
+    mobileCatalog.addEventListener('change', applyView);
+    applyView();
+}
 document.querySelector('#ordem')?.addEventListener('change', () => document.querySelector('#catalog-filters').requestSubmit());
 document.querySelector('#marca')?.addEventListener('change', () => { document.querySelector('#modelo').value = ''; });
 const photos = [...document.querySelectorAll('[data-gallery-image]')];

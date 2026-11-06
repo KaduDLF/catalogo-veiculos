@@ -39,6 +39,16 @@ class CatalogoTest extends TestCase
         $this->get('/veiculos/999')->assertNotFound();
     }
 
+    public function test_busca_ignora_caixa_e_combina_campos_e_espacos(): void
+    {
+        $vehicle = $this->vehicle(['nome' => 'CIVIC EXL', 'marca' => 'HONDA']);
+        $this->vehicle(['nome' => 'City', 'ano' => '2020/2020']);
+        $this->get('/veiculos?'.http_build_query(['q' => '  honda  2022 civic ']))
+            ->assertOk()->assertViewHas('veiculos', fn ($items) => $items->pluck('id')->all() === [$vehicle->id]);
+        $sql = Veiculo::on('pgsql')->buscar('civic')->toSql();
+        $this->assertStringContainsString('ilike', $sql);
+    }
+
     public function test_pagination_keeps_filters_and_view_mode(): void
     {
         foreach (range(1, 12) as $i) {

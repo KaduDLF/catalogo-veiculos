@@ -8,9 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/catalogo.css') }}">
-    <script src="{{ asset('js/catalogo.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/home.css').'?v='.filemtime(public_path('css/home.css')) }}">
+    <link rel="stylesheet" href="{{ asset('css/catalogo.css').'?v='.filemtime(public_path('css/catalogo.css')) }}">
+    <script src="{{ asset('js/catalogo.js').'?v='.filemtime(public_path('js/catalogo.js')) }}" defer></script>
 </head>
 <body>
     <header class="top-header">

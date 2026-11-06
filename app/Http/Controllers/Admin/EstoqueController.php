@@ -14,10 +14,7 @@ class EstoqueController
     public function index(Request $request)
     {
         $filters = $request->validate(['q'=>'nullable|string|max:120','status'=>'nullable|in:estoque,preparacao,vendido','mes'=>'nullable|date_format:Y-m']);
-        $query = Veiculo::withCount('visitas')->latest()->orderByDesc('id');
-        if ($filters['q'] ?? null) {
-            $query->where('nome', 'like', '%'.$filters['q'].'%');
-        }
+        $query = Veiculo::withCount('visitas')->buscar($filters['q'] ?? null)->latest()->orderByDesc('id');
         match ($filters['status'] ?? '') {
             'estoque' => $query->disponiveis(),
             'preparacao' => $query->where('disponivel', false)->whereNull('data_venda'),

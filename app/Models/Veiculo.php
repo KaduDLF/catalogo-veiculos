@@ -50,6 +50,19 @@ class Veiculo extends Model
         return $query->where('disponivel', true);
     }
 
+    public function scopeBuscar(Builder $query, ?string $termo): Builder
+    {
+        foreach (preg_split('/\s+/u', trim($termo ?? ''), -1, PREG_SPLIT_NO_EMPTY) as $palavra) {
+            $query->where(function (Builder $busca) use ($palavra) {
+                foreach (['nome', 'marca', 'modelo', 'versao', 'ano'] as $campo) {
+                    $busca->orWhereLike($campo, '%'.$palavra.'%');
+                }
+            });
+        }
+
+        return $query;
+    }
+
     public function getWhatsappUrlAttribute(): string
     {
         return \App\Support\Loja::whatsapp().'?text='.rawurlencode('Olá! Tenho interesse no veículo '.$this->nome.'. '.route('veiculos.show', $this));

@@ -15,10 +15,7 @@ class VeiculoController
             'modelo' => 'nullable|string|max:100', 'filtro' => 'nullable|in:promocoes',
             'ordem' => 'nullable|in:recentes,menor,maior', 'visualizacao' => 'nullable|in:grade,lista',
         ]);
-        $query = Veiculo::disponiveis();
-        if ($q = $filters['q'] ?? null) {
-            $query->where('nome', 'like', '%'.$q.'%');
-        }
+        $query = Veiculo::disponiveis()->buscar($filters['q'] ?? null);
         foreach (['marca', 'modelo'] as $campo) {
             if ($valor = $filters[$campo] ?? null) {
                 $query->where($campo, $valor);

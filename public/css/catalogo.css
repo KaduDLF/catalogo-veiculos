@@ -1,4 +1,5 @@
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(max-width:720px){.catalog-toolbar .view-buttons{display:none}}
 .catalog{display:grid;grid-template-columns:252px minmax(0,1fr);gap:48px;padding-top:125px;padding-bottom:150px;min-height:1100px}
 .catalog-filters{display:flex;flex-direction:column;gap:22px;align-self:start}
 .catalog select{height:48px;background:white;border:1px solid var(--line);border-radius:12px;padding:0 18px;font:inherit;color:var(--muted);max-width:100%}
