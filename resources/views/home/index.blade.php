@@ -11,6 +11,9 @@
                                 @include('home.partials.vehicle-card', ['veiculo' => $veiculo])
                             @endforeach
                         </div>
+                        <div class="offers__cta">
+                            <a href="{{ route('veiculos.index', ['filtro' => 'promocoes']) }}" class="stock-button">Ver todas as promoções <span aria-hidden="true">⌕</span></a>
+                        </div>
                     </section>
                 @endif
 
