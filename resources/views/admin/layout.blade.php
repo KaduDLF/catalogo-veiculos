@@ -3,8 +3,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>@yield('titulo') | L2 Veículos</title>
 <link rel="icon" href="{{ asset('images/logo/LogoL2.png') }}">
-<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-<script defer src="{{ asset('js/admin.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('css/admin.css').'?v='.filemtime(public_path('css/admin.css')) }}">
+<script defer src="{{ asset('js/admin.js').'?v='.filemtime(public_path('js/admin.js')) }}"></script>
 </head><body class="@yield('body')">
 @unless(request()->routeIs('login'))
 <aside class="admin-sidebar"><a href="{{ route('home') }}" aria-label="Ir para a página inicial da loja"><img class="logo" src="{{ asset('images/logo/LogoL2.png') }}" alt="L2 Veículos"></a>
