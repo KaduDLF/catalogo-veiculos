@@ -69,6 +69,7 @@ if (form) {
     const removedPhotos = document.querySelector('#removed-photos');
     const removed = new Set();
     let selectedFiles = [];
+    let cover = existing[0];
     let temporary = [];
     function renderGallery() {
         temporary.forEach(url => URL.revokeObjectURL(url));
@@ -85,6 +86,8 @@ if (form) {
             ...existing.map((url, index) => ({ url, index, saved: true })).filter(photo => !removed.has(photo.index)),
             ...temporary.map((url, index) => ({ url, index, saved: false })),
         ];
+        const sourceOf = photo => photo.saved ? existing[photo.index] : selectedFiles[photo.index];
+        if (!photos.some(photo => sourceOf(photo) === cover)) cover = photos[0] ? sourceOf(photos[0]) : null;
         photos.forEach(({ url, index, saved }, position) => {
             const card = document.createElement('div');
             card.className = 'gallery-card';
@@ -93,13 +96,21 @@ if (form) {
             const photo = document.createElement('img');
             photo.src = url;
             photo.alt = 'Foto ' + (position + 1);
+            const selectPhoto = document.createElement('label');
+            selectPhoto.className = 'gallery-select';
+            selectPhoto.htmlFor = 'gallery-cover-' + position;
+            selectPhoto.title = 'Definir esta foto como capa';
+            selectPhoto.append(photo);
             const label = document.createElement('label');
             label.className = 'gallery-cover';
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = 'capa';
+            radio.id = selectPhoto.htmlFor;
             radio.value = position;
-            radio.checked = position === 0;
+            const source = saved ? existing[index] : selectedFiles[index];
+            radio.checked = source === cover;
+            radio.addEventListener('change', () => { cover = source; });
             const remove = document.createElement('button');
             remove.type = 'button';
             remove.className = 'gallery-remove';
@@ -122,7 +133,7 @@ if (form) {
                 }
                 renderGallery();
             });
-            media.append(photo, remove);
+            media.append(selectPhoto, remove);
             label.append(radio, ' Definir como capa');
             card.append(media, label);
             gallery.append(card);
