@@ -3,7 +3,7 @@ if (catalogCards) {
     const mobileCatalog = window.matchMedia('(max-width: 720px)');
     let desktopMode = catalogCards.dataset.mode;
     function applyView() {
-        const mode = mobileCatalog.matches ? 'grade' : desktopMode;
+        const mode = mobileCatalog.matches ? 'lista' : desktopMode;
         catalogCards.dataset.mode = mode;
         document.querySelector('#view-mode').value = mode;
         document.querySelectorAll('[data-view]').forEach(item => item.setAttribute('aria-pressed', String(item.dataset.view === mode)));
