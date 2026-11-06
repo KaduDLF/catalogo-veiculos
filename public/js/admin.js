@@ -1,3 +1,31 @@
+document.querySelectorAll('.scroll').forEach(scroller => {
+    let origin = null;
+    let dragged = false;
+    scroller.addEventListener('pointerdown', event => {
+        origin = { x: event.clientX, y: event.clientY };
+        dragged = false;
+    }, { passive: true });
+    scroller.addEventListener('pointermove', event => {
+        if (origin && Math.hypot(event.clientX - origin.x, event.clientY - origin.y) > 10) dragged = true;
+    }, { passive: true });
+    scroller.addEventListener('pointercancel', () => { dragged = true; origin = null; }, { passive: true });
+    scroller.addEventListener('pointerup', () => { origin = null; }, { passive: true });
+    scroller.addEventListener('scroll', () => { dragged = true; }, { passive: true });
+    scroller.addEventListener('click', event => {
+        if (dragged && event.detail !== 0) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }, true);
+});
+
+document.querySelectorAll('.stock-row').forEach(row => {
+    row.addEventListener('click', event => {
+        if (event.target.closest('a,button,input,select,textarea,form') || event.defaultPrevented) return;
+        row.querySelector('.stock-row-link')?.click();
+    });
+});
+
 document.querySelectorAll('.more-actions').forEach(trigger => {
     const popup = trigger.popoverTargetElement;
     if (!popup) return;

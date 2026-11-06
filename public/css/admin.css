@@ -74,10 +74,8 @@ input[type=checkbox],input[type=radio] { width:auto; min-height:0; }
 #custom-ad-item { flex:1 1 220px; }
 #ad-item-status { margin-top:8px; }
 .save { text-align:right; margin-top:20px; }
-.scroll { overflow:auto; }
-.stock-row { position:relative; }
-.stock-row-link::after { content:""; position:absolute; inset:0; }
-.stock-row .actions > :is(a,button) { position:relative; z-index:1; }
+.scroll { width:100%; max-width:100%; min-width:0; overflow-x:auto; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; }
+.stock-row { cursor:pointer; }
 .stock-row:focus-within { background:#f2f6fb; }
 @media (hover:hover) { .stock-row:hover { background:#f2f6fb; } }
 table { border-collapse:collapse; width:100%; white-space:nowrap; }
