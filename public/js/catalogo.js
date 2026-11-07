@@ -33,10 +33,47 @@ function showPhoto(index) {
     currentPhoto = (index + photos.length) % photos.length;
     photos.forEach((photo, i) => { photo.hidden = i !== currentPhoto; });
     thumbnails.forEach((button, i) => button.setAttribute('aria-pressed', String(i === currentPhoto)));
+    if (lightbox?.open) renderLightbox();
 }
 thumbnails.forEach(button => button.addEventListener('click', () => showPhoto(Number(button.dataset.photo))));
 document.querySelector('.gallery-prev')?.addEventListener('click', () => showPhoto(currentPhoto - 1));
 document.querySelector('.gallery-next')?.addEventListener('click', () => showPhoto(currentPhoto + 1));
+
+const lightbox = document.querySelector('.photo-lightbox');
+function renderLightbox() {
+    const image = lightbox.querySelector('.lightbox-image');
+    image.src = photos[currentPhoto].src;
+    image.alt = photos[currentPhoto].alt;
+    lightbox.querySelector('.lightbox-counter').textContent = `Foto ${currentPhoto + 1} de ${photos.length}`;
+    lightbox.classList.remove('is-zoomed');
+    lightbox.querySelector('.lightbox-zoom').setAttribute('aria-pressed', 'false');
+    lightbox.querySelector('.lightbox-zoom').textContent = 'Zoom 2×';
+    lightbox.querySelector('.lightbox-stage').scrollTo(0, 0);
+}
+if (lightbox) {
+    document.querySelector('.gallery-open').addEventListener('click', () => {
+        renderLightbox();
+        lightbox.showModal();
+        document.documentElement.classList.add('photo-modal-open');
+    });
+    lightbox.querySelector('.lightbox-close').addEventListener('click', () => lightbox.close());
+    lightbox.addEventListener('close', () => document.documentElement.classList.remove('photo-modal-open'));
+    lightbox.addEventListener('click', event => {
+        const bounds = lightbox.getBoundingClientRect();
+        if (event.target === lightbox && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) lightbox.close();
+    });
+    lightbox.querySelector('.lightbox-zoom').addEventListener('click', event => {
+        const zoomed = lightbox.classList.toggle('is-zoomed');
+        event.currentTarget.setAttribute('aria-pressed', String(zoomed));
+        event.currentTarget.textContent = zoomed ? 'Ajustar foto' : 'Zoom 2×';
+    });
+    lightbox.querySelector('.lightbox-prev')?.addEventListener('click', () => showPhoto(currentPhoto - 1));
+    lightbox.querySelector('.lightbox-next')?.addEventListener('click', () => showPhoto(currentPhoto + 1));
+    lightbox.addEventListener('keydown', event => {
+        if (event.key === 'ArrowLeft' && !lightbox.classList.contains('is-zoomed')) { event.preventDefault(); showPhoto(currentPhoto - 1); }
+        if (event.key === 'ArrowRight' && !lightbox.classList.contains('is-zoomed')) { event.preventDefault(); showPhoto(currentPhoto + 1); }
+    });
+}
 
 const navigation = document.querySelector('.main-nav');
 const menuToggle = document.querySelector('.nav-toggle');

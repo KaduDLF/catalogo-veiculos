@@ -9,6 +9,7 @@
             <section class="gallery" aria-label="Fotos do veículo">
                 <div class="gallery-main">
                     @forelse($fotos as $foto)<img src="{{ asset($foto) }}" alt="{{ $veiculo->nome }} — foto {{ $loop->iteration }}" data-gallery-image @if(!$loop->first) hidden @endif>@empty<span>FOTO PRINCIPAL DO VEÍCULO</span>@endforelse
+                    @if($fotos->isNotEmpty())<button type="button" class="gallery-open" aria-label="Ampliar foto do veículo" aria-haspopup="dialog"><span>⤢ Ampliar foto</span></button>@endif
                     @if($fotos->count() > 1)<button type="button" class="gallery-prev" aria-label="Foto anterior">←</button><button type="button" class="gallery-next" aria-label="Próxima foto">→</button>@endif
                 </div>
                 @if($fotos->isNotEmpty())<div class="gallery-thumbnails">@foreach($fotos as $foto)<button type="button" data-photo="{{ $loop->index }}" aria-label="Mostrar foto {{ $loop->iteration }}" aria-pressed="{{ $loop->first ? 'true' : 'false' }}"><img src="{{ asset($foto) }}" alt="" loading="lazy"></button>@endforeach</div>@endif
@@ -22,4 +23,15 @@
         </aside>
     </div>
 </main>
+@if($fotos->isNotEmpty())
+<dialog class="photo-lightbox" aria-label="Fotos ampliadas de {{ $veiculo->nome }}">
+    <div class="lightbox-toolbar">
+        <span class="lightbox-counter" aria-live="polite"></span>
+        <button type="button" class="lightbox-zoom" aria-pressed="false">Zoom 2×</button>
+        <button type="button" class="lightbox-close" aria-label="Fechar foto ampliada">✕</button>
+    </div>
+    <div class="lightbox-stage"><img class="lightbox-image" alt=""></div>
+    @if($fotos->count() > 1)<div class="lightbox-navigation"><button type="button" class="lightbox-prev" aria-label="Foto anterior">← Anterior</button><button type="button" class="lightbox-next" aria-label="Próxima foto">Próxima →</button></div>@endif
+</dialog>
+@endif
 @endsection
