@@ -45,7 +45,7 @@ class HomeTest extends TestCase
             ->assertSee('id="promocoes"', false)
             ->assertSee('De R$ 119.900,00')->assertSee('Por R$ 109.900,00')
             ->assertViewHas('promocoes', fn ($items) => $items->modelKeys() === [$promocao->id])
-            ->assertViewHas('recentes', fn ($items) => $items->count() === 7 && ! $items->contains('id', $promocao->id));
+            ->assertViewHas('recentes', fn ($items) => $items->count() === 8 && ! $items->contains('id', $promocao->id));
 
         $this->assertSame(1, substr_count($response->getContent(), 'data-veiculo-id="'.$promocao->id.'"'));
     }
@@ -61,7 +61,7 @@ class HomeTest extends TestCase
         $recentes = $response->viewData('recentes');
 
         $this->assertCount(4, $promocoes);
-        $this->assertCount(4, $recentes);
+        $this->assertCount(8, $recentes);
         $this->assertCount(0, $promocoes->intersect($recentes));
         $this->assertSame([12, 11, 10, 9], $promocoes->modelKeys());
     }

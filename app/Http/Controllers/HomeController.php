@@ -15,7 +15,7 @@ class HomeController
         $recentes = Veiculo::disponiveis()
             ->whereNotIn('id', $promocoes->modelKeys())
             ->latest()->orderByDesc('id')
-            ->limit(8 - $promocoes->count())->get();
+            ->limit(8)->get();
 
         return view('home.index', compact('promocoes', 'recentes'));
     }
