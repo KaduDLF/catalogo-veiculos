@@ -33,6 +33,34 @@ class AdminTest extends TestCase
         $this->get('/admin')->assertViewHas('mensagens',0);
     }
 
+    public function test_acao_na_lista_registra_venda_na_data_local(): void
+    {
+        $veiculo = Veiculo::create([
+            'nome' => 'Civic de teste', 'ano' => '2022/2022', 'km' => 20000,
+            'cambio' => 'Automático', 'preco' => 75000, 'disponivel' => true,
+            'em_promocao' => true, 'preco_promocional' => 73000,
+        ]);
+        $lista = route('admin.veiculos.index', ['status' => 'estoque']);
+        $vender = route('admin.veiculos.vender', $veiculo);
+
+        $this->patch($vender)->assertRedirect(route('login'));
+        $this->actingAs(User::create(['name' => 'Loja', 'email' => 'loja@example.test', 'password' => 'senha-local-123456']));
+        $this->travelTo(\Carbon\CarbonImmutable::parse('2026-11-08 02:00:00 UTC'));
+        $this->get($lista)->assertOk()->assertSee('Marcar como vendido');
+        $this->from($lista)->patch($vender)->assertRedirect($lista);
+        $this->assertDatabaseHas('veiculos', [
+            'id' => $veiculo->id, 'data_venda' => '2026-11-07', 'disponivel' => false,
+            'em_promocao' => false, 'preco_promocional' => null,
+        ]);
+        $this->get(route('veiculos.show', $veiculo))->assertNotFound();
+        $this->get(route('admin.veiculos.index', ['status' => 'vendido']))->assertOk()
+            ->assertSee($veiculo->nome)->assertDontSee('Marcar como vendido');
+
+        $this->travel(1)->days();
+        $this->patch($vender)->assertSessionHas('ok', 'O veículo já está marcado como vendido.');
+        $this->assertDatabaseHas('veiculos', ['id' => $veiculo->id, 'data_venda' => '2026-11-07']);
+    }
+
     public function test_fluxo_de_cadastro_publicacao_visita_e_venda(): void
     {
         Storage::fake('public');

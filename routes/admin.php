@@ -11,6 +11,7 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth')->name('admin.')->group(function () {
         Route::get('/', [PainelController::class, 'dashboard'])->name('dashboard');
         Route::post('sair', [AcessoController::class, 'sair'])->name('sair');
+        Route::patch('veiculos/{veiculo}/vender', [EstoqueController::class, 'vender'])->name('veiculos.vender');
         Route::resource('veiculos', EstoqueController::class)->parameters(['veiculos' => 'veiculo'])->except('show');
         Route::get('mensagens', [PainelController::class, 'mensagens'])->name('mensagens');
         Route::post('mensagens/{id}/lida', [PainelController::class, 'ler'])->whereNumber('id')->name('ler');

@@ -15,6 +15,23 @@
         </span>
         <strong>{{ $v->nome }}</strong>
     </a>
-</td><td>{{ $v->ano }}</td><td>R$ {{ number_format($v->promocao_ativa?$v->preco_promocional:$v->preco,2,',','.') }}</td><td><span class="badge {{ $v->disponivel?'available':'' }}">{{ $v->status }}</span></td><td>{{ $v->visitas_count }}</td><td><div class="actions"><a class="secondary" href="{{ route('admin.veiculos.edit',$v) }}">Editar</a><button type="button" class="secondary more-actions" popovertarget="acoes-{{ $v->id }}" aria-label="Mais ações para {{ $v->nome }}">•••</button><form popover="auto" id="acoes-{{ $v->id }}" class="row-popover" method="post" action="{{ route('admin.veiculos.destroy',$v) }}" data-excluir>@csrf @method('DELETE')<button class="danger">Excluir</button></form></div></td></tr>
+</td><td>{{ $v->ano }}</td><td>R$ {{ number_format($v->promocao_ativa?$v->preco_promocional:$v->preco,2,',','.') }}</td><td><span class="badge {{ $v->disponivel?'available':'' }}">{{ $v->status }}</span></td><td>{{ $v->visitas_count }}</td><td>
+    <div class="actions">
+        <a class="secondary" href="{{ route('admin.veiculos.edit',$v) }}">Editar</a>
+        <button type="button" class="secondary more-actions" popovertarget="acoes-{{ $v->id }}" aria-label="Mais ações para {{ $v->nome }}">•••</button>
+        <div popover="auto" id="acoes-{{ $v->id }}" class="row-popover">
+            @if($v->data_venda === null)
+                <form method="post" action="{{ route('admin.veiculos.vender',$v) }}">
+                    @csrf @method('PATCH')
+                    <button type="submit" class="secondary">Marcar como vendido</button>
+                </form>
+            @endif
+            <form method="post" action="{{ route('admin.veiculos.destroy',$v) }}" data-excluir>
+                @csrf @method('DELETE')
+                <button type="submit" class="danger">Excluir</button>
+            </form>
+        </div>
+    </div>
+</td></tr>
 @empty<tr><td colspan="6">Nenhum veículo encontrado.</td></tr>@endforelse</tbody></table></div>@include('admin.paginacao',['lista'=>$veiculos])</section>
 @endsection

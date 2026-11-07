@@ -48,6 +48,18 @@ class EstoqueController
         return $this->salvar($request, $veiculo);
     }
 
+    public function vender(Veiculo $veiculo)
+    {
+        $alterado = Veiculo::whereKey($veiculo->getKey())->whereNull('data_venda')->update([
+            'data_venda' => now('America/Sao_Paulo')->toDateString(),
+            'disponivel' => false,
+            'em_promocao' => false,
+            'preco_promocional' => null,
+        ]);
+
+        return back()->with('ok', $alterado ? 'Veículo marcado como vendido.' : 'O veículo já está marcado como vendido.');
+    }
+
     private function salvar(Request $request, Veiculo $veiculo)
     {
         $dados = $request->validate([
