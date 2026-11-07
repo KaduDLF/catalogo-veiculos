@@ -23,7 +23,10 @@
     @endforeach
 </select>
 @else
-<input name="{{ $campo }}" placeholder="{{ $campo==='nome'?'Ex.: Honda Civic EXL':'Preencher '.mb_strtolower($label) }}" value="{{ old($campo,match($campo){'fabricacao'=>$anos[0],'ano_modelo'=>$anos[1]??$anos[0],default=>$veiculo->$campo}) }}" @if(in_array($campo,['km','preco','fabricacao','ano_modelo'])) type="number" min="{{ $campo==='preco'?'0.01':'0' }}" step="{{ $campo==='preco'?'0.01':'1' }}" @endif @required(!in_array($campo,['cor','versao','combustivel']))>
+<input name="{{ $campo }}" placeholder="{{ $campo==='nome'?'Ex.: Honda Civic EXL':'Preencher '.mb_strtolower($label) }}" value="{{ old($campo,match($campo){'fabricacao'=>$anos[0],'ano_modelo'=>$anos[1]??$anos[0],default=>$veiculo->$campo}) }}"
+    @if(in_array($campo,['fabricacao','ano_modelo'])) type="text" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" title="Informe o ano com quatro números"
+    @elseif(in_array($campo,['km','preco'])) type="number" min="{{ $campo==='preco'?'0.01':'0' }}" step="{{ $campo==='preco'?'0.01':'1' }}"
+    @endif @required(!in_array($campo,['cor','versao','combustivel']))>
 @endif</label>@endforeach
 <label id="sale-date">Data da venda<input type="date" name="data_venda" max="{{ now('America/Sao_Paulo')->toDateString() }}" value="{{ old('data_venda',$veiculo->data_venda) }}"></label>
 </div><label>Descrição<textarea name="descricao" rows="5" placeholder="Descrição e detalhes do veículo...">{{ old('descricao',$veiculo->descricao) }}</textarea></label>

@@ -79,6 +79,11 @@ document.querySelector('[name="condicoes"]')?.addEventListener('input', event =>
 const form = document.querySelector('#vehicle-form');
 if (form) {
     const fields = form.elements;
+    for (const year of [fields.fabricacao, fields.ano_modelo]) {
+        year.addEventListener('input', () => {
+            year.value = year.value.replace(/[^0-9]/g, '').slice(0, 4);
+        });
+    }
     const refresh = () => {
         const sold = fields.status.value === 'vendido';
         document.querySelector('#sale-date').hidden = !sold;
@@ -224,19 +229,26 @@ if (form) {
         notice.textContent = message;
     }
     document.querySelector('#generate').addEventListener('click', () => {
-        const price = fields.preco_promocional.disabled ? fields.preco : fields.preco_promocional;
-        if (!fields.nome.value.trim() || !Number(price.value)) {
+        const price = Number(fields.preco.value);
+        const promotion = !fields.preco_promocional.disabled;
+        const offer = Number(fields.preco_promocional.value);
+        if (!fields.nome.value.trim() || !Number.isFinite(price) || price <= 0) {
             feedback('Preencha o nome do anúncio e o preço.', true);
             return;
         }
-        const money = Number(price.value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+        if (promotion && (!Number.isFinite(offer) || offer <= 0 || offer >= price)) {
+            feedback('Informe um preço promocional válido e menor que o preço normal.', true);
+            return;
+        }
+        const money = value => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const priceText = promotion ? 'De ' + money(price) + '\nPor ' + money(offer) : '💰 ' + money(price);
         const details = [
             ['Ano', [fields.fabricacao.value, fields.ano_modelo.value].filter(Boolean).join('/')],
             ['Km', fields.km.value && Number(fields.km.value).toLocaleString('pt-BR')],
             ['Combustível', fields.combustivel.value], ['Câmbio', fields.cambio.value]
         ].filter(pair => pair[1]).map(([key,value]) => '✅ ' + key + ': ' + value);
         const extras = [...form.querySelectorAll('[name="itens_confirmados[]"]:checked')].map(input => '✅ ' + input.value);
-        preview.value = ['VENDE-SE ' + fields.nome.value.toUpperCase() + '\n💰 ' + money, details.join('\n'), extras.join('\n'), form.dataset.condicoes].filter(Boolean).join('\n\n');
+        preview.value = ['VENDE-SE ' + fields.nome.value.toUpperCase() + '\n' + priceText, details.join('\n'), extras.join('\n'), form.dataset.condicoes].filter(Boolean).join('\n\n');
         feedback('Texto gerado.');
     });
     document.querySelector('#copy').addEventListener('click', async () => {
