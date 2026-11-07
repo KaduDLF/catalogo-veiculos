@@ -241,7 +241,7 @@ if (form) {
             return;
         }
         const money = value => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        const priceText = promotion ? 'De ' + money(price) + '\nPor ' + money(offer) : '💰 ' + money(price);
+        const priceText = promotion ? 'De 💰' + money(price) + '\nPor 💰' + money(offer) : '💰 ' + money(price);
         const details = [
             ['Ano', [fields.fabricacao.value, fields.ano_modelo.value].filter(Boolean).join('/')],
             ['Km', fields.km.value && Number(fields.km.value).toLocaleString('pt-BR')],
